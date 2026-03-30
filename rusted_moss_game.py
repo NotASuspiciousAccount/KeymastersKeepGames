@@ -34,7 +34,7 @@ class Rusted_Moss(Game):
     def optional_game_constraint_templates(self) -> List[GameObjectiveTemplate]:
         return [
             GameObjectiveTemplate(
-                label="Also equip TRINKET",
+                label="Also equip TRINKET if possible",
                 data={
                     "TRINKET": (self.trinkets, 1)
                 },
@@ -61,6 +61,15 @@ class Rusted_Moss(Game):
                 weight=5,
             ),
             GameObjectiveTemplate(
+                label="Don't use ABILITY if possible",
+                data={
+                    "ABILITY": (self.movement_abilities, 1)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=3,
+            ),
+            GameObjectiveTemplate(
                 label="Use only WEAPON if possible",
                 data={
                     "WEAPON": (self.weapons, 1)
@@ -80,7 +89,7 @@ class Rusted_Moss(Game):
 
     def game_objective_templates(self) -> List[GameObjectiveTemplate]:
         game_objective_templates: List[GameObjectiveTemplate] = list()
-        if self.include_new_save:
+        if self.include_bosses:
             game_objective_templates.extend([
                 GameObjectiveTemplate(
                     label="Defeat BOSS.",
@@ -205,6 +214,13 @@ class Rusted_Moss(Game):
                     label="Complete the boss rush!",
                     data={},
                     is_time_consuming=False,
+                    is_difficult=False,
+                    weight=3,
+                ),
+                GameObjectiveTemplate(
+                    label="Complete the boss rush!",
+                    data={},
+                    is_time_consuming=False,
                     is_difficult=True,
                     weight=3,
                 ),
@@ -219,6 +235,39 @@ class Rusted_Moss(Game):
                     is_time_consuming=False,
                     is_difficult=False,
                     weight=15,
+                ),
+                GameObjectiveTemplate(
+                    label="Complete CLIMBER's climb without using ABILITY.",
+                    data={
+                        "CLIMBER": (self.climbs, 1),
+                        "ABILITY": (self.movement_abilities, 1)
+                    },
+                    is_time_consuming=False,
+                    is_difficult=True,
+                    weight=5,
+                ),
+            ])
+        if self.include_climbs and self.include_speedrun:
+            self.game_objective_templates.extend([
+                GameObjectiveTemplate(
+                    label="Complete CLIMBER's climb in SECONDS seconds.",
+                    data={
+                        "CLIMBER": (self.climbs, 1),
+                        "SECONDS": (self.rand_climb_seconds, 1)
+                    },
+                    is_time_consuming=False,
+                    is_difficult=False,
+                    weight=5,
+                ),
+                GameObjectiveTemplate(
+                    label="Complete CLIMBER's climb in SECONDS seconds.",
+                    data={
+                        "CLIMBER": (self.climbs, 1),
+                        "SECONDS": (self.rand_hardclimb_seconds, 1)
+                    },
+                    is_time_consuming=False,
+                    is_difficult=True,
+                    weight=5,
                 ),
             ])
         if self.include_climbs and self.include_dlc:
@@ -253,6 +302,17 @@ class Rusted_Moss(Game):
                     weight=2,
                 ),
                 GameObjectiveTemplate(
+                    label="Travel from AREA1 to AREA2 without teleports or ABILITY.",
+                    data={
+                        "AREA1": (self.areas, 1),
+                        "AREA2": (self.areas, 1),
+                        "ABILITY": (self.movement_abilities, 1)                       
+                    },
+                    is_time_consuming=True,
+                    is_difficult=True,
+                    weight=2,
+                ),
+                GameObjectiveTemplate(
                     label="Travel from AREA1 to AREA2, then to AREA3 without teleports.",
                     data={
                         "AREA1": (self.areas, 1),
@@ -261,6 +321,18 @@ class Rusted_Moss(Game):
                     },
                     is_time_consuming=True,
                     is_difficult=False,
+                    weight=2,
+                ),
+                GameObjectiveTemplate(
+                    label="Travel from AREA1 to AREA2, then to AREA3 without teleports or ABILITY.",
+                    data={
+                        "AREA1": (self.areas, 1),
+                        "AREA2": (self.areas, 1),
+                        "AREA3": (self.areas, 1),
+                        "ABILITY": (self.movement_abilities, 1)                      
+                    },
+                    is_time_consuming=True,
+                    is_difficult=True,
                     weight=2,
                 ),
             ])
@@ -666,6 +738,15 @@ class Rusted_Moss(Game):
             "Heal",
             "Grenades"
         ]
+    
+    @staticmethod
+    def movement_abilities() -> List[str]:
+        return [
+            "Grapple",
+            "Grapple Fling",
+            "High Jump",
+            "Weapon Knockback"
+        ]
 
     @staticmethod
     def rand_collectibles() -> range:
@@ -698,6 +779,12 @@ class Rusted_Moss(Game):
     @staticmethod
     def rand_summithard_minute() -> range:
         return range(0, 59)
+    @staticmethod
+    def rand_climb_seconds() -> range:
+        return range(80, 110)
+    @staticmethod
+    def rand_hardclimb_seconds() -> range:
+        return range(40, 70)
     
 # Options
 class RustedMossTrialTypes(OptionSet):
