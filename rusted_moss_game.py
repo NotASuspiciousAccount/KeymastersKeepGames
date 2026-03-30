@@ -61,9 +61,9 @@ class Rusted_Moss(Game):
                 weight=5,
             ),
             GameObjectiveTemplate(
-                label="Don't use ABILITY if possible",
+                label="Don't use ITEM if possible",
                 data={
-                    "ABILITY": (self.movement_abilities, 1)
+                    "ITEM": (self.movement_items, 1)
                 },
                 is_time_consuming=False,
                 is_difficult=False,
@@ -210,6 +210,9 @@ class Rusted_Moss(Game):
                     is_difficult=True,
                     weight=3,
                 ),
+            ])
+        if self.include_bosses and self.include_dlc:
+            game_objective_templates.extend([
                 GameObjectiveTemplate(
                     label="Complete the boss rush!",
                     data={},
@@ -218,7 +221,7 @@ class Rusted_Moss(Game):
                     weight=3,
                 ),
                 GameObjectiveTemplate(
-                    label="Complete the boss rush!",
+                    label="Complete the empowered boss rush!",
                     data={},
                     is_time_consuming=False,
                     is_difficult=True,
@@ -237,30 +240,30 @@ class Rusted_Moss(Game):
                     weight=15,
                 ),
                 GameObjectiveTemplate(
-                    label="Complete CLIMBER's climb in SECONDS seconds.",
+                    label="Complete CLIMBER's climb in TIME seconds.",
                     data={
                         "CLIMBER": (self.climbs, 1),
-                        "SECONDS": (self.rand_climb_seconds, 1)
+                        "TIME": (self.rand_climb_seconds, 1)
                     },
                     is_time_consuming=False,
                     is_difficult=False,
                     weight=5,
                 ),
                 GameObjectiveTemplate(
-                    label="Complete CLIMBER's climb in SECONDS seconds.",
+                    label="Complete CLIMBER's climb in TIME seconds.",
                     data={
                         "CLIMBER": (self.climbs, 1),
-                        "SECONDS": (self.rand_hardclimb_seconds, 1)
+                        "TIME": (self.rand_hardclimb_seconds, 1)
                     },
                     is_time_consuming=False,
                     is_difficult=True,
                     weight=5,
                 ),
                 GameObjectiveTemplate(
-                    label="Complete CLIMBER's climb without using ABILITY.",
+                    label="Complete CLIMBER's climb without using ITEM.",
                     data={
                         "CLIMBER": (self.climbs, 1),
-                        "ABILITY": (self.movement_abilities, 1)
+                        "ITEM": (self.movement_items, 1)
                     },
                     is_time_consuming=False,
                     is_difficult=True,
@@ -299,11 +302,11 @@ class Rusted_Moss(Game):
                     weight=2,
                 ),
                 GameObjectiveTemplate(
-                    label="Travel from AREA1 to AREA2 without teleports or ABILITY.",
+                    label="Travel from AREA1 to AREA2 without teleports or ITEM.",
                     data={
                         "AREA1": (self.areas, 1),
                         "AREA2": (self.areas, 1),
-                        "ABILITY": (self.movement_abilities, 1)                       
+                        "ITEM": (self.movement_items, 1)                       
                     },
                     is_time_consuming=True,
                     is_difficult=True,
@@ -321,12 +324,12 @@ class Rusted_Moss(Game):
                     weight=2,
                 ),
                 GameObjectiveTemplate(
-                    label="Travel from AREA1 to AREA2, then to AREA3 without teleports or ABILITY.",
+                    label="Travel from AREA1 to AREA2, then to AREA3 without teleports or ITEM.",
                     data={
                         "AREA1": (self.areas, 1),
                         "AREA2": (self.areas, 1),
                         "AREA3": (self.areas, 1),
-                        "ABILITY": (self.movement_abilities, 1)                      
+                        "ITEM": (self.movement_items, 1)                      
                     },
                     is_time_consuming=True,
                     is_difficult=True,
@@ -541,6 +544,45 @@ class Rusted_Moss(Game):
         return self.rusted_moss_include_dlc
 
     # Datasets
+    @functools.cached_property
+    def base_bosses(self) -> List[str]:
+        return [
+            "Bonnie",
+            "Great Witch Ameli",
+            "Maya 1",
+            "War",
+            "Elecia",
+            "Pestilence",
+            "Priestess Friea",
+            "Spirella",
+            "Lenore, Fae-Touched Witch",
+            "Face Stealers",
+            "Maya 2",
+            "Void Worm",
+            "Famine",
+            "Seer",
+            "Robin",
+            "Legacy Robin",
+            "any boss"
+        ]
+    
+    @functools.cached_property
+    def dlc_bosses(self) -> List[str]:
+        return [
+            "Forgotten experiment \"Noah\"",
+            "Diana",
+            "Elicia 2",
+            "Frøy",
+        ]
+    
+    def bosses(self) -> List[str]:
+        bosses: List[str] = self.base_bosses()
+
+        if self.include_dlc:
+            bosses.extend(self.dlc_bosses)
+
+        return sorted(bosses)
+
     @staticmethod
     def bosses() -> List[str]:
         return [
@@ -568,7 +610,7 @@ class Rusted_Moss(Game):
         ]
     
     @staticmethod
-    def trinkets() -> List[str]:
+    def base_trinkets() -> List[str]:
         return [
             "Incendiary Essence",
             "Tattered Blindfold",
@@ -601,15 +643,28 @@ class Rusted_Moss(Game):
             "Fae of Hate",
             "Fae of Glass",
             "Titania's Protection",
-            "Energy Disruptor",
+            "Energy Disruptor"
+        ]
+
+    @staticmethod
+    def dlc_trinkets() -> List[str]:
+        return [
             "Energy Converter",
             "Soft Fae",
             "Mossy Wings",
             "Glass Coin"
         ]
+
+    def trinkets(self) -> List[str]:
+        trinkets: List[str] = self.base_trinkets()
+
+        if self.include_dlc:
+            trinkets.extend(self.dlc_trinkets)
+
+        return sorted(trinkets)
     
     @staticmethod
-    def uncommon_trinkets() -> List[str]:
+    def uncommon_base_trinkets() -> List[str]:
         return [
             "Magnet",
             "Fairy Ointment",
@@ -631,10 +686,22 @@ class Rusted_Moss(Game):
             "Fae of Hate",
             "Titania's Protection",
             "Energy Disruptor",
+        ]
+
+    def uncommon_dlc_trinkets() -> List[str]:
+        return [
             "Energy Converter",
             "Soft Fae",
             "Mossy Wings"
         ]
+
+    def uncommon_trinkets(self) -> List[str]:
+        trinkets: List[str] = self.uncommon_base_trinkets()
+
+        if self.include_dlc:
+            trinkets.extend(self.uncommon_dlc_trinkets)
+
+        return sorted(trinkets)
     
     @staticmethod
     def weapons() -> List[str]:
@@ -737,7 +804,7 @@ class Rusted_Moss(Game):
         ]
     
     @staticmethod
-    def movement_abilities() -> List[str]:
+    def movement_items() -> List[str]:
         return [
             "Grapple",
             "Grapple Fling",
