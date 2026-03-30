@@ -30,8 +30,56 @@ class Rusted_Moss(Game):
 
     options_cls = RustedMossArchipelagoOptions
 
+    def optional_game_constraint_templates(self) -> List[GameObjectiveTemplate]:
+        return [
+            GameObjectiveTemplate(
+                label="Also equip TRINKET",
+                data={
+                    "TRINKET": (self.trinkets, 1)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=10,
+            ),
+            GameObjectiveTemplate(
+                label="Don't equip TRINKET if possible",
+                data={
+                    "TRINKET": (self.trinkets, 3)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=10,
+            ),
+            GameObjectiveTemplate(
+                label="Don't use ABILITY",
+                data={
+                    "ABILITY": (self.mana_abilities, 1)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=5,
+            ),
+            GameObjectiveTemplate(
+                label="Use only WEAPON if possible",
+                data={
+                    "WEAPON": (self.weapons, 1)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=3,
+            ),
+            GameObjectiveTemplate(
+                label="Don't take damage!",
+                data={},
+                is_time_consuming=False,
+                is_difficult=True,
+                weight=3,
+            ),
+        ]
+
     def game_objective_templates(self) -> List[GameObjectiveTemplate]:
         return [
+            # Boss kills
             GameObjectiveTemplate(
                 label="Defeat BOSS",
                 data={
@@ -39,7 +87,7 @@ class Rusted_Moss(Game):
                 },
                 is_time_consuming=False,
                 is_difficult=False,
-                weight=10,
+                weight=15,
             ),
             GameObjectiveTemplate(
                 label="Defeat BOSS with TRINKET equipped",
@@ -71,6 +119,54 @@ class Rusted_Moss(Game):
                 is_difficult=False,
                 weight=3,
             ),
+            # Empowered boss kills
+            GameObjectiveTemplate(
+                label="Defeat BOSS (Empowered)",
+                data={
+                    "BOSS": (self.bosses, 1)
+                },
+                is_time_consuming=False,
+                is_difficult=True,
+                weight=15,
+            ),
+            GameObjectiveTemplate(
+                label="Defeat BOSS (Empowered) with TRINKET equipped",
+                data={
+                    "BOSS": (self.bosses, 1),
+                    "TRINKET": (self.trinkets, 1)
+                },
+                is_time_consuming=False,
+                is_difficult=True,
+                weight=5,
+            ),
+            GameObjectiveTemplate(
+                label="Defeat BOSS (Empowered) with TRINKET equipped",
+                data={
+                    "BOSS": (self.bosses, 1),
+                    "TRINKET": (self.trinkets, 2)
+                },
+                is_time_consuming=False,
+                is_difficult=True,
+                weight=3,
+            ),
+            GameObjectiveTemplate(
+                label="Defeat BOSS (Empowered) using only WEAPONS",
+                data={
+                    "BOSS": (self.bosses, 1),
+                    "WEAPONS": (self.weapons, 2)
+                },
+                is_time_consuming=False,
+                is_difficult=True,
+                weight=3,
+            ),
+            GameObjectiveTemplate(
+                label="Complete the boss rush!",
+                data={},
+                is_time_consuming=False,
+                is_difficult=True,
+                weight=3,
+            ),
+            # Climbs
             GameObjectiveTemplate(
                 label="Complete CLIMBER's climb",
                 data={
@@ -78,9 +174,45 @@ class Rusted_Moss(Game):
                 },
                 is_time_consuming=False,
                 is_difficult=False,
-                weight=10,
+                weight=15,
             ),
-            
+            # Fresh save objectives
+            GameObjectiveTemplate(
+                label="From a new save file, collect COUNT trinkets",
+                data={
+                    "COUNT": (self.rand_collectibles, 1)
+                },
+                is_time_consuming=True,
+                is_difficult=False,
+                weight=2,
+            ),
+            GameObjectiveTemplate(
+                label="From a new save file, collect COUNT stat upgrades",
+                data={
+                    "COUNT": (self.rand_collectibles, 1)
+                },
+                is_time_consuming=True,
+                is_difficult=False,
+                weight=2,
+            ),
+            GameObjectiveTemplate(
+                label="From a new save file, read COUNT lore boxes",
+                data={
+                    "COUNT": (self.rand_collectibles, 1)
+                },
+                is_time_consuming=True,
+                is_difficult=False,
+                weight=2,
+            ),
+            GameObjectiveTemplate(
+                label="From a new save file, defeat COUNT bosses",
+                data={
+                    "COUNT": (self.rand_bosses, 1)
+                },
+                is_time_consuming=True,
+                is_difficult=False,
+                weight=2,
+            ),
         ]
 
     # Datasets
@@ -101,7 +233,8 @@ class Rusted_Moss(Game):
             "Void Worm",
             "Famine",
             "Forgotten experiment \"Noah\"",
-            "Seer"
+            "Seer",
+            "any boss"
         ]
     
     @staticmethod
@@ -165,3 +298,19 @@ class Rusted_Moss(Game):
             "Fern",
             "Juni"
         ]
+
+    @staticmethod
+    def mana_abilities() -> List[str]:
+        return [
+            "Heal",
+            "Grenades"
+        ]
+
+    @staticmethod
+    def rand_collectibles() -> range:
+        return range(4, 8)
+    
+    @staticmethod
+    def rand_bosses() -> range:
+        return range(3, 5)
+    
