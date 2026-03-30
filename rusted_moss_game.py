@@ -781,7 +781,7 @@ class Rusted_Moss(Game):
         return range(80, 110)
     @staticmethod
     def rand_hardclimb_seconds() -> range:
-        return range(40, 70)
+        return range(50, 70)
     
 # Options
 class RustedMossTrialTypes(OptionSet):
