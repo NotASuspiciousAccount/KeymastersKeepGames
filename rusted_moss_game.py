@@ -48,7 +48,16 @@ class Rusted_Moss(Game):
                 },
                 is_time_consuming=False,
                 is_difficult=False,
-                weight=10,
+                weight=5,
+            ),
+            GameObjectiveTemplate(
+                label="Don't equip TRINKET if possible",
+                data={
+                    "TRINKET": (self.common_trinkets, 3)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=5,
             ),
             GameObjectiveTemplate(
                 label="Don't use ABILITY",
@@ -69,11 +78,11 @@ class Rusted_Moss(Game):
                 weight=3,
             ),
             GameObjectiveTemplate(
-                label="Don't take damage!",
+                label="Don't take any damage!",
                 data={},
                 is_time_consuming=False,
                 is_difficult=True,
-                weight=3,
+                weight=2,
             ),
         ]
 
@@ -89,6 +98,7 @@ class Rusted_Moss(Game):
                 is_difficult=False,
                 weight=15,
             ),
+            # Boss kills with trinkets
             GameObjectiveTemplate(
                 label="Defeat BOSS with TRINKET equipped",
                 data={
@@ -97,7 +107,7 @@ class Rusted_Moss(Game):
                 },
                 is_time_consuming=False,
                 is_difficult=False,
-                weight=5,
+                weight=3,
             ),
             GameObjectiveTemplate(
                 label="Defeat BOSS with TRINKET equipped",
@@ -107,8 +117,30 @@ class Rusted_Moss(Game):
                 },
                 is_time_consuming=False,
                 is_difficult=False,
-                weight=3,
+                weight=2,
             ),
+            # Boss kills with uncommon trinkets
+            GameObjectiveTemplate(
+                label="Defeat BOSS with TRINKET equipped",
+                data={
+                    "BOSS": (self.bosses, 1),
+                    "TRINKET": (self.uncommon_trinkets, 1)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=2,
+            ),
+            GameObjectiveTemplate(
+                label="Defeat BOSS with TRINKET equipped",
+                data={
+                    "BOSS": (self.bosses, 1),
+                    "TRINKET": (self.uncommon_trinkets, 2)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=1,
+            ),
+            # Boss kills with specific weapons
             GameObjectiveTemplate(
                 label="Defeat BOSS using only WEAPONS",
                 data={
@@ -129,6 +161,7 @@ class Rusted_Moss(Game):
                 is_difficult=True,
                 weight=15,
             ),
+            # Empowered boss kills with trinkets
             GameObjectiveTemplate(
                 label="Defeat BOSS (Empowered) with TRINKET equipped",
                 data={
@@ -137,7 +170,7 @@ class Rusted_Moss(Game):
                 },
                 is_time_consuming=False,
                 is_difficult=True,
-                weight=5,
+                weight=3,
             ),
             GameObjectiveTemplate(
                 label="Defeat BOSS (Empowered) with TRINKET equipped",
@@ -147,8 +180,30 @@ class Rusted_Moss(Game):
                 },
                 is_time_consuming=False,
                 is_difficult=True,
-                weight=3,
+                weight=2,
             ),
+            # Empowered boss kills with uncommon trinkets
+            GameObjectiveTemplate(
+                label="Defeat BOSS (Empowered) with TRINKET equipped",
+                data={
+                    "BOSS": (self.bosses, 1),
+                    "TRINKET": (self.uncommon_trinkets, 1)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=2,
+            ),
+            GameObjectiveTemplate(
+                label="Defeat BOSS (Empowered) with TRINKET equipped",
+                data={
+                    "BOSS": (self.bosses, 1),
+                    "TRINKET": (self.uncommon_trinkets, 2)
+                },
+                is_time_consuming=False,
+                is_difficult=False,
+                weight=1,
+            ),
+            # Empowered boss kills with specific weapons
             GameObjectiveTemplate(
                 label="Defeat BOSS (Empowered) using only WEAPONS",
                 data={
@@ -233,38 +288,46 @@ class Rusted_Moss(Game):
             "Void Worm",
             "Famine",
             "Forgotten experiment \"Noah\"",
-            "Seer",
+            "The Seer",
+            "Robin the Beloved Child",
             "any boss"
         ]
     
-    @staticmethod
-    def trinkets() -> List[str]:
+    # Trinkets that are used in builds often, including most damage + movement buffing trinkets
+    def common_trinkets(self) -> List[str]:
         return [
             "Incendiary Essence",
-            "Tattered Blindfold",
             "Giant Chambers",
-            "Magnet",
             "Ruby Slippers",
-            "Fairy Ointment",
-            "Energy Refiner",
-            "Lucky Clover Pearl",
             "Time Manipulator",
             "Spiced Gunpowder",
             "Powdered Fae Silver",
+            "Powdered Nightshade",
+            "Erosive Bullets",
+            "Guardian Fae",
+            "Dandelion Bomb",
+            "HP Overload",
+            "Heavy Ammo",
+            "Glass Coin",
+        ]
+    
+    # Trinkets that aren't used in builds often, including those with little to no use for boss battles
+    def uncommon_trinkets(self) -> List[str]:
+        return [
+            "Tattered Blindfold",
+            "Magnet",
+            "Fairy Ointment",
+            "Energy Refiner",
+            "Lucky Clover Pearl",
             "Sprite's Breath",
             "Wing Clipper",
-            "Powdered Nightshade",
             "Cracked Monocle",
             "Magnetic Bullets",
             "Thorny Rose",
             "Rusted Coin",
             "Cleansing Charm",
-            "Erosive Bullets",
-            "Guardian Fae",
             "Cricket Bone Whip",
-            "Dandelion Bomb",
             "HP Overload",
-            "Heavy Ammo",
             "Short Fuse",
             "Thorny Wings",
             "Maya's Trinket",
@@ -275,8 +338,16 @@ class Rusted_Moss(Game):
             "Titania's Protection",
             "Energy Disruptor",
             "Energy Converter",
-            "Soft Fae"
+            "Soft Fae",
+            "Mossy Wings"
         ]
+    
+    def trinkets(self) -> List[str]:
+        trinkets: List[str] = self.common_trinkets[:]
+
+        trinkets.extend(self.uncommon_trinkets[:])
+
+        return trinkets
     
     @staticmethod
     def weapons() -> List[str]:
