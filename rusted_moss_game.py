@@ -237,19 +237,6 @@ class Rusted_Moss(Game):
                     weight=15,
                 ),
                 GameObjectiveTemplate(
-                    label="Complete CLIMBER's climb without using ABILITY.",
-                    data={
-                        "CLIMBER": (self.climbs, 1),
-                        "ABILITY": (self.movement_abilities, 1)
-                    },
-                    is_time_consuming=False,
-                    is_difficult=True,
-                    weight=5,
-                ),
-            ])
-        if self.include_climbs and self.include_speedrun:
-            self.game_objective_templates.extend([
-                GameObjectiveTemplate(
                     label="Complete CLIMBER's climb in SECONDS seconds.",
                     data={
                         "CLIMBER": (self.climbs, 1),
@@ -264,6 +251,16 @@ class Rusted_Moss(Game):
                     data={
                         "CLIMBER": (self.climbs, 1),
                         "SECONDS": (self.rand_hardclimb_seconds, 1)
+                    },
+                    is_time_consuming=False,
+                    is_difficult=True,
+                    weight=5,
+                ),
+                GameObjectiveTemplate(
+                    label="Complete CLIMBER's climb without using ABILITY.",
+                    data={
+                        "CLIMBER": (self.climbs, 1),
+                        "ABILITY": (self.movement_abilities, 1)
                     },
                     is_time_consuming=False,
                     is_difficult=True,
