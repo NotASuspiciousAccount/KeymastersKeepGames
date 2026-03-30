@@ -541,7 +541,7 @@ class Rusted_Moss(Game):
         return "Speedrunning" in self.modes
     @property
     def include_dlc(self) -> bool:
-        return self.rusted_moss_include_dlc
+        return bool(self.archipelago_options.rusted_moss_include_dlc.value)
 
     # Datasets
     @functools.cached_property
@@ -582,34 +582,8 @@ class Rusted_Moss(Game):
             bosses.extend(self.dlc_bosses)
 
         return sorted(bosses)
-
-    @staticmethod
-    def bosses() -> List[str]:
-        return [
-            "Bonnie",
-            "Great Witch Ameli",
-            "Maya 1",
-            "War",
-            "Elecia",
-            "Pestilence",
-            "Priestess Friea",
-            "Spirella",
-            "Lenore, Fae-Touched Witch",
-            "Face Stealers",
-            "Maya 2",
-            "Void Worm",
-            "Famine",
-            "Forgotten experiment \"Noah\"",
-            "Seer",
-            "Robin",
-            "Legacy Robin",
-            "Diana",
-            "Elicia 2",
-            "Frøy",
-            "any boss"
-        ]
     
-    @staticmethod
+    @functools.cached_property
     def base_trinkets() -> List[str]:
         return [
             "Incendiary Essence",
@@ -646,7 +620,7 @@ class Rusted_Moss(Game):
             "Energy Disruptor"
         ]
 
-    @staticmethod
+    @functools.cached_property
     def dlc_trinkets() -> List[str]:
         return [
             "Energy Converter",
@@ -663,7 +637,7 @@ class Rusted_Moss(Game):
 
         return sorted(trinkets)
     
-    @staticmethod
+    @functools.cached_property
     def uncommon_base_trinkets() -> List[str]:
         return [
             "Magnet",
@@ -688,6 +662,7 @@ class Rusted_Moss(Game):
             "Energy Disruptor",
         ]
 
+    @functools.cached_property
     def uncommon_dlc_trinkets() -> List[str]:
         return [
             "Energy Converter",
