@@ -576,10 +576,10 @@ class Rusted_Moss(Game):
         ]
     
     def bosses(self) -> List[str]:
-        bosses: List[str] = self.base_bosses()
+        bosses: List[str] = self.base_bosses[:]
 
         if self.include_dlc:
-            bosses.extend(self.dlc_bosses)
+            bosses.extend(self.dlc_bosses[:])
 
         return sorted(bosses)
     
@@ -630,10 +630,10 @@ class Rusted_Moss(Game):
         ]
 
     def trinkets(self) -> List[str]:
-        trinkets: List[str] = self.base_trinkets()
+        trinkets: List[str] = self.base_trinkets[:]
 
         if self.include_dlc:
-            trinkets.extend(self.dlc_trinkets)
+            trinkets.extend(self.dlc_trinkets[:])
 
         return sorted(trinkets)
     
@@ -671,10 +671,10 @@ class Rusted_Moss(Game):
         ]
 
     def uncommon_trinkets(self) -> List[str]:
-        trinkets: List[str] = self.uncommon_base_trinkets()
+        trinkets: List[str] = self.uncommon_base_trinkets[:]
 
         if self.include_dlc:
-            trinkets.extend(self.uncommon_dlc_trinkets)
+            trinkets.extend(self.uncommon_dlc_trinkets[:])
 
         return sorted(trinkets)
     
