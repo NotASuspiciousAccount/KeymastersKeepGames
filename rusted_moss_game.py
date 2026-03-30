@@ -584,7 +584,7 @@ class Rusted_Moss(Game):
         return sorted(bosses)
     
     @functools.cached_property
-    def base_trinkets() -> List[str]:
+    def base_trinkets(self) -> List[str]:
         return [
             "Incendiary Essence",
             "Tattered Blindfold",
@@ -621,7 +621,7 @@ class Rusted_Moss(Game):
         ]
 
     @functools.cached_property
-    def dlc_trinkets() -> List[str]:
+    def dlc_trinkets(self) -> List[str]:
         return [
             "Energy Converter",
             "Soft Fae",
@@ -638,7 +638,7 @@ class Rusted_Moss(Game):
         return sorted(trinkets)
     
     @functools.cached_property
-    def uncommon_base_trinkets() -> List[str]:
+    def uncommon_base_trinkets(self) -> List[str]:
         return [
             "Magnet",
             "Fairy Ointment",
@@ -663,7 +663,7 @@ class Rusted_Moss(Game):
         ]
 
     @functools.cached_property
-    def uncommon_dlc_trinkets() -> List[str]:
+    def uncommon_dlc_trinkets(self) -> List[str]:
         return [
             "Energy Converter",
             "Soft Fae",
