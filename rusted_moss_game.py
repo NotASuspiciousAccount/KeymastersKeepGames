@@ -578,7 +578,14 @@ class Rusted_Moss(Game):
         return sorted(bosses)
     
     def bosses(self) -> List[str]:
-        return sorted(self.empowered_bosses[:].extend(self.legacy_bosses[:]))
+        bosses: List[str] = self.base_bosses[:]
+
+        bosses.extend(self.legacy_bosses[:])
+
+        if self.include_dlc:
+            bosses.extend(self.dlc_bosses[:])
+
+        return sorted(bosses)
     
     @functools.cached_property
     def base_trinkets(self) -> List[str]:
