@@ -34,7 +34,7 @@ class Rusted_Moss(Game):
     def optional_game_constraint_templates(self) -> List[GameObjectiveTemplate]:
         return [
             GameObjectiveTemplate(
-                label="Also equip TRINKET if possible",
+                label="Also equip TRINKET if possible.",
                 data={
                     "TRINKET": (self.trinkets, 1)
                 },
@@ -43,7 +43,7 @@ class Rusted_Moss(Game):
                 weight=10,
             ),
             GameObjectiveTemplate(
-                label="Don't equip TRINKET if possible",
+                label="Don't equip TRINKET if possible.",
                 data={
                     "TRINKET": (self.trinkets, 3)
                 },
@@ -52,7 +52,7 @@ class Rusted_Moss(Game):
                 weight=10,
             ),
             GameObjectiveTemplate(
-                label="Don't use ABILITY",
+                label="Don't use ABILITY.",
                 data={
                     "ABILITY": (self.mana_abilities, 1)
                 },
@@ -61,7 +61,7 @@ class Rusted_Moss(Game):
                 weight=5,
             ),
             GameObjectiveTemplate(
-                label="Don't use ITEM if possible",
+                label="Don't use ITEM if possible.",
                 data={
                     "ITEM": (self.movement_items, 1)
                 },
@@ -70,7 +70,7 @@ class Rusted_Moss(Game):
                 weight=3,
             ),
             GameObjectiveTemplate(
-                label="Use only WEAPON if possible",
+                label="Use only WEAPON if possible.",
                 data={
                     "WEAPON": (self.weapons, 1)
                 },
@@ -273,7 +273,7 @@ class Rusted_Moss(Game):
         if self.include_climbs and self.include_dlc:
             game_objective_templates.extend([        
                 GameObjectiveTemplate(
-                    label="Complete The Great Climb. (after resetting doors/arenas)",
+                    label="Complete The Great Climb. (After resetting doors/arenas)",
                     data={
                     },
                     is_time_consuming=True,
@@ -297,7 +297,7 @@ class Rusted_Moss(Game):
                         "AREA1": (self.areas, 1),
                         "AREA2": (self.areas, 1)                        
                     },
-                    is_time_consuming=True,
+                    is_time_consuming=False,
                     is_difficult=False,
                     weight=2,
                 ),
@@ -308,7 +308,7 @@ class Rusted_Moss(Game):
                         "AREA2": (self.areas, 1),
                         "ITEM": (self.movement_items, 1)                       
                     },
-                    is_time_consuming=True,
+                    is_time_consuming=False,
                     is_difficult=True,
                     weight=2,
                 ),
@@ -344,7 +344,7 @@ class Rusted_Moss(Game):
                         "AREA1": (self.dlc_areas, 1),
                         "AREA2": (self.dlc_areas, 1)                        
                     },
-                    is_time_consuming=True,
+                    is_time_consuming=False,
                     is_difficult=False,
                     weight=2,
                 ),
