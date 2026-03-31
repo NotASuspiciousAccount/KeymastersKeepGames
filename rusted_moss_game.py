@@ -711,7 +711,7 @@ class Rusted_Moss(Game):
             "Ichor Refinery",
             "Living Quarters",
             "The Lab",
-            "Barrows Ceiling",
+            "Barrow's Ceiling",
             "Elfame"
         ]
     @staticmethod
@@ -744,7 +744,7 @@ class Rusted_Moss(Game):
             "Ichor Refinery",
             "Living Quarters",
             "The Lab",
-            "Barrows Ceiling",
+            "Barrow's Ceiling",
             "Elfame",
             "Overgrown Tundra",
             "Forest of Remembrance",

@@ -6,7 +6,7 @@ Description: Rusted Moss is an action-packed Metroidvania inspired by folktales 
 
 KMK Implementation: This implementation focuses on testing combat, movement, and exploration with a wide variety of challenges across the game. Categories for trials include:
 
--Bosses: Fight bosses in the Tree of Recollection. You may be required to use certain trinkets or weapons to defeat them. Difficult checks allows for empowered bosses to appear.
+-Bosses: Fight bosses in the Forest of recollections. You may be required to use certain trinkets or weapons to defeat them. Difficult checks allows for empowered bosses to appear.
 
 -Climbs: Complete climbs around the map. You may be required to complete it within a certain time limit, or without certain movement options with difficult checks. Enabling DLC and time-consuming checks can also allow for The Great Climb to appear as a trial.
 
@@ -16,4 +16,4 @@ KMK Implementation: This implementation focuses on testing combat, movement, and
 
 -Speedrun: Start a new save file, then complete an objective within the time limit. These checks are incredibly difficult, and only appear if both time-consuming and difficult checks are enabled.
 
-Categories can be enabled or disabled in the YAML settings, and DLC content can also be included or excluded from trials. (Note that if DLC content is excluded, you are still expected to use the Tree of Recollection for boss battles.)
+Categories can be enabled or disabled in the YAML settings, and DLC content can also be included or excluded from trials. (Note that if DLC content is excluded, you are still expected to use the Forest of recollections for boss battles.)
