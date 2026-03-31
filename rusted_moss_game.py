@@ -38,8 +38,6 @@ class Rusted_Moss(Game):
                 data={
                     "TRINKET": (self.trinkets, 1)
                 },
-                is_time_consuming=False,
-                is_difficult=False,
                 weight=10,
             ),
             GameObjectiveTemplate(
@@ -47,8 +45,6 @@ class Rusted_Moss(Game):
                 data={
                     "TRINKET": (self.trinkets, 3)
                 },
-                is_time_consuming=False,
-                is_difficult=False,
                 weight=10,
             ),
             GameObjectiveTemplate(
@@ -56,8 +52,6 @@ class Rusted_Moss(Game):
                 data={
                     "ABILITY": (self.mana_abilities, 1)
                 },
-                is_time_consuming=False,
-                is_difficult=False,
                 weight=5,
             ),
             GameObjectiveTemplate(
@@ -65,8 +59,6 @@ class Rusted_Moss(Game):
                 data={
                     "ITEM": (self.movement_items, 1)
                 },
-                is_time_consuming=False,
-                is_difficult=False,
                 weight=3,
             ),
             GameObjectiveTemplate(
@@ -74,15 +66,11 @@ class Rusted_Moss(Game):
                 data={
                     "WEAPON": (self.weapons, 1)
                 },
-                is_time_consuming=False,
-                is_difficult=False,
                 weight=3,
             ),
             GameObjectiveTemplate(
                 label="Don't take damage!",
                 data={},
-                is_time_consuming=False,
-                is_difficult=True,
                 weight=3,
             ),
         ]
@@ -154,7 +142,7 @@ class Rusted_Moss(Game):
                 GameObjectiveTemplate(
                     label="Defeat BOSS (Empowered).",
                     data={
-                        "BOSS": (self.bosses, 1)
+                        "BOSS": (self.empowered_bosses, 1)
                     },
                     is_time_consuming=False,
                     is_difficult=True,
@@ -163,7 +151,7 @@ class Rusted_Moss(Game):
                 GameObjectiveTemplate(
                     label="Defeat BOSS (Empowered) with TRINKET equipped.",
                     data={
-                        "BOSS": (self.bosses, 1),
+                        "BOSS": (self.empowered_bosses, 1),
                         "TRINKET": (self.trinkets, 1)
                     },
                     is_time_consuming=False,
@@ -173,7 +161,7 @@ class Rusted_Moss(Game):
                 GameObjectiveTemplate(
                     label="Defeat BOSS (Empowered) with TRINKET equipped.",
                     data={
-                        "BOSS": (self.bosses, 1),
+                        "BOSS": (self.empowered_bosses, 1),
                         "TRINKET": (self.trinkets, 2)
                     },
                     is_time_consuming=False,
@@ -183,7 +171,7 @@ class Rusted_Moss(Game):
                 GameObjectiveTemplate(
                     label="Defeat BOSS (Empowered) with TRINKET equipped.",
                     data={
-                        "BOSS": (self.bosses, 1),
+                        "BOSS": (self.empowered_bosses, 1),
                         "TRINKET": (self.uncommon_trinkets, 1)
                     },
                     is_time_consuming=False,
@@ -193,7 +181,7 @@ class Rusted_Moss(Game):
                 GameObjectiveTemplate(
                     label="Defeat BOSS (Empowered) with TRINKET equipped.",
                     data={
-                        "BOSS": (self.bosses, 1),
+                        "BOSS": (self.empowered_bosses, 1),
                         "TRINKET": (self.uncommon_trinkets, 2)
                     },
                     is_time_consuming=False,
@@ -203,7 +191,7 @@ class Rusted_Moss(Game):
                 GameObjectiveTemplate(
                     label="Defeat BOSS (Empowered) using only WEAPONS.",
                     data={
-                        "BOSS": (self.bosses, 1),
+                        "BOSS": (self.empowered_bosses, 1),
                         "WEAPONS": (self.weapons, 2)
                     },
                     is_time_consuming=False,
@@ -562,8 +550,14 @@ class Rusted_Moss(Game):
             "Famine",
             "Seer",
             "Robin",
-            "Legacy Robin",
             "any boss"
+        ]
+    
+    # Legacy bosses don't have empowered versions, so should stay separate
+    @functools.cached_property
+    def legacy_bosses(self) -> List[str]:
+        return [
+            "Legacy Robin"
         ]
     
     @functools.cached_property
@@ -575,13 +569,16 @@ class Rusted_Moss(Game):
             "Frøy",
         ]
     
-    def bosses(self) -> List[str]:
+    def empowered_bosses(self) -> List[str]:
         bosses: List[str] = self.base_bosses[:]
 
         if self.include_dlc:
             bosses.extend(self.dlc_bosses[:])
 
         return sorted(bosses)
+    
+    def bosses(self) -> List[str]:
+        return sorted(self.empowered_bosses[:].extend(self.legacy_bosses[:]))
     
     @functools.cached_property
     def base_trinkets(self) -> List[str]:
