@@ -20,7 +20,7 @@ class RPGBotArchipelagoOptions:
 
 # Main Class
 class RPGBotGame(Game):
-    name = "Template"
+    name = "RPG Bot"
     platform = KeymastersKeepGamePlatforms.PC
 
     platforms_other = [
